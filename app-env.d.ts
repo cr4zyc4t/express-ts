@@ -7,4 +7,5 @@ interface ErrorException extends Error {
 	path?: string;
 	syscall?: string;
 	stack?: string;
+	status?: number;
 }
