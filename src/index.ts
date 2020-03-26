@@ -4,8 +4,13 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logMiddleware from 'morgan';
 import http from 'http';
-import normalizePort from 'helpers/normalizePort';
-import logger from 'helpers/logger';
+import normalizePort from './helpers/normalizePort';
+import logger from './helpers/logger';
+import { ErrorException } from '../app-env';
+
+import homeRouter from './routes';
+import userRouter from './routes/users';
+import { createErrorHandler } from './helpers/server';
 
 const app = express();
 
@@ -21,6 +26,9 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../public')));
+
+app.use('/', homeRouter);
+app.use('/users', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -45,35 +53,12 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
-server.on('error', (error: ErrorException) => {
-	if (error.syscall !== 'listen') {
-		throw error;
-	}
-
-	var bind = typeof port === 'string'
-		? 'Pipe ' + port
-		: 'Port ' + port;
-
-	// handle specific listen errors with friendly messages
-	switch (error.code) {
-		case 'EACCES':
-			console.error(bind + ' requires elevated privileges');
-			process.exit(1);
-			break;
-		case 'EADDRINUSE':
-			console.error(bind + ' is already in use');
-			process.exit(1);
-			break;
-		default:
-			throw error;
-	}
-});
-
+server.on('error', createErrorHandler(port));
 server.on('listening', () => {
-	var addr = server.address();
-	var bind = typeof addr === 'string'
+	const addr = server.address();
+	const bind = typeof addr === 'string'
 		? 'pipe ' + addr
-		: 'port ' + addr?.port ?? 80;
+		: 'http://localhost:' + addr?.port ?? 80;
 	logger.info('Listening on ' + bind);
 });
 

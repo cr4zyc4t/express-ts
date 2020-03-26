@@ -78,6 +78,8 @@ module.exports = {
 			},
 		],
 		'no-useless-constructor': 'off',
-		'@typescript-eslint/no-useless-constructor': 'warn'
+		'@typescript-eslint/no-useless-constructor': 'warn',
+		'no-var': [2],
+		'prefer-const': [1]
 	}
 };
