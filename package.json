@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon",
-    "build": "rimraf build && tsc"
+    "dev": "nodemon",
+    "build": "rimraf dist && tsc -b",
+    "start": "rimraf dist && tsc -b && node dist/index"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

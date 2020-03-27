@@ -6,7 +6,6 @@ import logMiddleware from 'morgan';
 import http from 'http';
 import normalizePort from './helpers/normalizePort';
 import logger from './helpers/logger';
-import { ErrorException } from '../app-env';
 
 import homeRouter from './routes';
 import userRouter from './routes/users';

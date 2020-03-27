@@ -4,5 +4,8 @@
 	],
 	"ext": ".ts,.js",
 	"ignore": [],
+	"env": {
+		"TS_NODE_FILES": true
+	},
 	"exec": "ts-node ./src/index.ts"
 }

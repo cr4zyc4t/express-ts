@@ -1,5 +1,3 @@
-import { ErrorException } from '../../app-env';
-
 export const createErrorHandler = (port: string | number) => (error: ErrorException) => {
 	if (error.syscall !== 'listen') {
 		throw error;

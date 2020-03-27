@@ -1,7 +1,7 @@
-/// <reference types="@types/node" />
-/// <reference types="@types/express" />
+/// <reference types="node" />
+/// <reference types="express" />
 
-export interface ErrorException extends Error {
+interface ErrorException extends Error {
 	errno?: number;
 	code?: string;
 	path?: string;
