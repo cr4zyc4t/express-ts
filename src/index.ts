@@ -2,21 +2,26 @@ import createError from 'http-errors';
 import express, { NextFunction, Response, Request } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import logMiddleware from 'morgan';
 import http from 'http';
+import log4js from 'log4js';
+import log4jsConfig from './configs/log4js.json';
+
 import normalizePort from './helpers/normalizePort';
-import logger from './helpers/logger';
+import { createErrorHandler } from './helpers/server';
 
 import homeRouter from './routes';
 import userRouter from './routes/users';
-import { createErrorHandler } from './helpers/server';
 
+log4js.configure(log4jsConfig);
+
+const isEnvProduction = process.env.NODE_ENV === 'production';
+const logger = log4js.getLogger(isEnvProduction? 'app': 'dev');
 const app = express();
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-app.use(logMiddleware('dev'));
+app.use(log4js.connectLogger(log4js.getLogger('http'), { level: 'auto' }));
 
 app.use(express.json());
 app.use(express.urlencoded({
